@@ -43,39 +43,24 @@ RU:
 Для правильной работы скрипта вам нужен файл fixed_mangas.txt, содержащий информацию о манге (например, slug_url, manga_id и т. д.). Скрипт использует этот файл для поиска информации о манге при POST-запросах. Убедитесь, что этот файл отформатирован как JSON и находится в той же директории, что и скрипт.
 
 Шаг 2: Установка cookie-файлов и статуса коллекции<br>
-Перед запуском скрипта вам нужно вручную авторизоваться на MangaLib и извлечь свои сессионные куки (remember_web_md5hashhere, XSRF-TOKEN и mangalib_session). Вставьте эти куки в скрипт в функции set_cookies().
+Перед запуском скрипта вам нужно вручную авторизоваться на MangaLib и извлечь свои сессионные куки (remember_web_md5hashhere, XSRF-TOKEN и mangalib_session). Вставьте эти куки в скрипт в самом верху. Для каждой куки есть отдельная переменная, вставляете в пустое место между ''.
 ```
 async def set_cookies(page):
     cookies = [
         {
             'name': 'XSRF-TOKEN',
             'value': 'your_xsrf_token_value',  # Поменяйте на ваши куки XSRF
-            'domain': 'mangalib.me',
-            'path': '/',
-            'secure': True,
-            'httpOnly': False,
-            'sameSite': 'Lax',
-            'expires': -1  # Session cookie
+            ...
         },
         {
             'name': 'mangalib_session',
             'value': 'your_session_value',  # Поменяйте на ваши сессионные куки
-            'domain': 'mangalib.me',
-            'path': '/',
-            'secure': True,
-            'httpOnly': True,
-            'sameSite': 'Lax',
-            'expires': -1
+            ...
         },
 	{
-            'name': 'remember_web_md5hashhere', # Поменяйте на ваше название куки с md5 хэшем 
+            'name': 'remember_web_md5hashhere',
             'value': 'your_remember_web_cookie', # Поменяйте на ваши куки
-            'domain': 'mangalib.me',
-            'path': '/',
-            'secure': True,
-            'httpOnly': True,
-            'sameSite': 'Lax',
-            'expires': -1
+            ...
         }
     ] 
 ```
@@ -92,16 +77,9 @@ async def set_cookies(page):
 И ещё, тут надо поменять Cookie, x-csrf-token и x-xsrf-token. Вы можете вытащить их из запроса, его можно посмотреть через F12 - Network - добавляете тайтл в коллекцию - смотрите bookmark - достаёте все нужные поля (прям копипастите в скрипт)
 ```
     headers = {
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Encoding': 'gzip, deflate, br, zstd',
-        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Content-Length': str(content_length),
-        'Content-Type': 'application/json;charset=UTF-8',
+        ...
         'Cookie': 'your_cookie_here', # Change it!!!           
-        'Origin': 'https://mangalib.me',
-        'Priority': 'u=1, i',
-        'Referer': manga_url,
-        'Sec-Ch-Ua': '"Chromium";v="130", "Brave";v="130", "Not?A_Brand";v="99"',
+        ...
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', # You can set your own user agent
         'X-Csrf-Token': 'your_csrf_here', # Change it!!!
         'X-Requested-With': 'XMLHttpRequest',
@@ -124,7 +102,6 @@ async def set_cookies(page):
 Устранение неполадок:<br>
 Проблемы с CAPTCHA: Если Cloudflare CAPTCHA продолжает блокировать запросы, убедитесь, что вы используете действительные куки сессии, и попробуйте замедлить работу скрипта, увеличив время sleep между запросами.<br>
 Ошибки 403: Это может произойти, если срок действия файлов cookie вашей сессии истёк. Вам нужно будет снова вручную войти в систему и обновить куки в скрипте.<br>
-An error occurred: object NoneType can't be used in 'await' expression - я не знаю, что вызывает эту ошибку, но это нормально, скрипт работает и дальше после добавления манги в коллекцию.<br>
 
 ### Лицензия
 Этот проект с открытым исходным кодом и лицензируется по лицензии GPL-3.0. Не стесняйтесь изменять и улучшать скрипт в соответствии с вашими потребностями. (но не монетизируйте его, это плохо!).
@@ -183,39 +160,24 @@ Step 1: Download the Manga JSON Data<br>
 You need a fixed_mangas.txt file containing the manga information (like slug_url, manga_id, etc.). The script uses this file to find manga details for POST requests. Make sure this file is formatted as JSON and located in the same directory as the script.
 
 Step 2: Set Your Cookies and Collection Status<br>
-Before running the script, you need to manually authenticate on MangaLib and extract your session cookies (remember_web_md5hashhere, XSRF-TOKEN and mangalib_session). Insert these cookies into the script in the set_cookies() function.
+Before running the script, you need to manually authenticate on MangaLib and extract your session cookies (remember_web_md5hashhere, XSRF-TOKEN and mangalib_session). Insert these cookies into the script in appropriate variables on the top.
 ```
 async def set_cookies(page):
     cookies = [
         {
             'name': 'XSRF-TOKEN',
             'value': 'your_xsrf_token_value',  # Replace with actual token
-            'domain': 'mangalib.me',
-            'path': '/',
-            'secure': True,
-            'httpOnly': False,
-            'sameSite': 'Lax',
-            'expires': -1  # Session cookie
+            ...
         },
         {
             'name': 'mangalib_session',
             'value': 'your_session_value',  # Replace with actual session value
-            'domain': 'mangalib.me',
-            'path': '/',
-            'secure': True,
-            'httpOnly': True,
-            'sameSite': 'Lax',
-            'expires': -1
+            ...
         },
 	{
-            'name': 'remember_web_md5hashhere', # Replace the name of this cookie with your cookie name 
+            'name': 'remember_web_md5hashhere', 
             'value': 'your_remember_web_cookie', # Replace with actual cookie
-            'domain': 'mangalib.me',
-            'path': '/',
-            'secure': True,
-            'httpOnly': True,
-            'sameSite': 'Lax',
-            'expires': -1
+            ....
         }
     ]
 ```
@@ -233,17 +195,10 @@ Additionally, you should change "status" in this part with your own collection i
 And you should change Cookie, x-csrf-token и x-xsrf-token here. You can extract all of these from request headers when you add smth into collection manually through F12 - Network - add test manga into collection - check "bookmark" request - copypaste all script needs.
 ```
     headers = {
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Encoding': 'gzip, deflate, br, zstd',
-        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Content-Length': str(content_length),
-        'Content-Type': 'application/json;charset=UTF-8',
+        ...
         'Cookie': 'your_cookie_here', # Change it!!!           
-        'Origin': 'https://mangalib.me',
-        'Priority': 'u=1, i',
-        'Referer': manga_url,
-        'Sec-Ch-Ua': '"Chromium";v="130", "Brave";v="130", "Not?A_Brand";v="99"',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+        ...
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', # You can set yours
         'X-Csrf-Token': 'your_csrf_here', # Change it!!!
         'X-Requested-With': 'XMLHttpRequest',
         'X-Xsrf-Token': 'your_xsrf_here' # Change it!!!
@@ -265,7 +220,6 @@ Once the script finds an abandoned title, it will log the details and add the ma
 ### Troubleshooting
 CAPTCHA Issues: If Cloudflare CAPTCHA keeps blocking requests, ensure you're using valid session cookies and try slowing down the script by increasing the sleep time between requests.<br>
 403 Errors: This can happen if your session cookies expire. You will need to manually log in again and update your cookies in the script.<br>
-An error occurred: object NoneType can't be used in 'await' expression - I don't know what causes this error, but it is okay, script works fine after adding the title into the collection.<br>
 
 ### License
 This project is open-source and licensed under the GPL-3.0 license. Feel free to modify and improve the script as per your needs. (but do not monetize it, it is bad!)
